@@ -92,26 +92,31 @@ public class signup extends javax.swing.JFrame{
         
         usernameinput = new JTextField();
         usernameinput.setBounds(650,450,300,40);
+        usernameinput.setFont(font3);
         usernameinput.requestFocus();
         signupFrame.add(usernameinput);
         
         nameinput = new JTextField();
         nameinput.setBounds(650,300,300,40);
+        nameinput.setFont(font3);
         signupFrame.add(nameinput);
         
         
         accnoinput = new JTextField();
         accnoinput.setBounds(650,350,300,40);
+        accnoinput.setFont(font3);
         signupFrame.add(accnoinput);
         
         
         amountinput = new JTextField();
         amountinput.setBounds(650,400,300,40);
+        amountinput.setFont(font3);
         signupFrame.add(amountinput);
 
         
         pininput = new JPasswordField();
         pininput.setBounds(650,500,300,40);
+        pininput.setFont(font3);
         signupFrame.add(pininput);
         
         registerbutton = new JButton("Register");

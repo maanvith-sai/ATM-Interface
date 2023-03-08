@@ -16,6 +16,7 @@ public class transfer {
     String user = "root";
     String password = "";
     String cu,tamount,name,name1, tamount1,uname;
+    int m = 0;
 
     public transfer() throws ClassNotFoundException {
 
@@ -86,6 +87,7 @@ public class transfer {
         
         amountInput = new JTextField();
         amountInput.setBounds(850,400,300,40);
+        amountInput.setFont(font3);
         amountInput.requestFocus();
         bookFrame.add(amountInput);
         
@@ -109,6 +111,7 @@ public class transfer {
 
         accInput1 = new JTextField();
         accInput1.setBounds(850,300,300,40);
+        accInput1.setFont(font3);
         accInput1.requestFocus();
         bookFrame.add(accInput1);
 
@@ -125,73 +128,6 @@ public class transfer {
         submitButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 try{
-                    
-                    //String ano = accInput.getText();
-                    String q = "Select * from userinfo where username = ?";
-                    
-                    
-                    PreparedStatement pst1 = conn.prepareStatement(q);
-                    
-                    pst1.setString(1,cu);
-                    
-                   
-                    ResultSet rSet = pst1.executeQuery();
-                    if(rSet.next()){
-                        name = rSet.getString(1);
-                        uname = rSet.getString(4);
-                        topname.setText("Name: " +rSet.getString(1));
-                        topaccno.setText("Acc No: " +rSet.getString(2));
-                        String bamount = rSet.getString(3);
-                        String damount = amountInput.getText().toString();
-                        int i=Integer.parseInt(bamount);
-                        int j=Integer.parseInt(damount);
-                        int k = i-j;
-                        tamount = String.valueOf(k);
-                        
-                        transfer = new JLabel("Transfered Amount : ");
-                        transfer.setBounds(400,500,500,40);
-                        transfer.setForeground(Color.BLACK);
-                        transfer.setFont(font3);
-                        bookFrame.add(transfer);
-                        
-                        available = new JLabel("Available Amount : ");
-                        available.setBounds(400,600,500,40);
-                        available.setForeground(Color.BLACK);
-                        available.setFont(font3);
-                        bookFrame.add(available);
-                        
-                        available.setText("Available Amount : "+tamount);
-                        transfer.setText("Transfered Amount : "+damount);
-                        try{
-                            String u = "UPDATE `userinfo` SET `amount` = ? WHERE `userinfo`.`username` = ?";
-                            PreparedStatement pst3 = conn.prepareStatement(u);
-                            pst3.setString(1,tamount);
-                            pst3.setString(2,cu);
-                            pst3.execute();
-                        }catch(Exception e4){
-                            JOptionPane.showMessageDialog(null,"Total Amount updation failed");
-                        }
-                        
-                        try{
-                            String h = "insert into history (username,method,amount) values(?,?,?)";
-                            PreparedStatement pst4 = conn.prepareStatement(h);
-                            pst4.setString(1,uname);
-                            pst4.setString(2,"Debit");
-                            pst4.setString(3,damount);
-                            pst4.executeUpdate();
-                            JOptionPane.showMessageDialog(null,"Transfer Success Check your Account History");
-                            
-                        }catch(Exception e6){
-                            JOptionPane.showMessageDialog(null,"Updation of History table error");
-                        }
-                        
-                    }
-                    else{
-                        JOptionPane.showMessageDialog(null, "Account Number Does not exist");
-                        amountInput.setText("");
-                        amountInput.requestFocus();
-                        //firstNameInput.requestFocus();
-                    }
                     String ano1 = accInput1.getText();
                     String r = "select * from userinfo where accno = ?";
                     PreparedStatement pst2 = conn.prepareStatement(r);
@@ -199,43 +135,131 @@ public class transfer {
                     
                     ResultSet rSet1 = pst2.executeQuery();
                     if(rSet1.next()){
-                        
+                        m =1;
                         name1 = rSet1.getString(4);
                         String bamount1 = rSet1.getString(3);
-                        String damount1 = amountInput.getText().toString();
+                        String damount1 = amountInput.getText();
                         int i=Integer.parseInt(bamount1);
                         int j=Integer.parseInt(damount1);
-                        int k = i+j;
-                        tamount1 = String.valueOf(k);
-                        
-                        try{
-                            String u = "UPDATE `userinfo` SET `amount` = ? WHERE `userinfo`.`accno` = ?";
-                            PreparedStatement pst4 = conn.prepareStatement(u);
-                            pst4.setString(1,tamount1);
-                            pst4.setString(2,ano1);
-                            pst4.execute();
-                        }catch(Exception e1){
-                            JOptionPane.showMessageDialog(null,"Credit Updation Error in userinfo");
-                        }
-                        try{
-                            String h1 = "insert into history (username,method,amount) values(?,?,?)";
-                            PreparedStatement pst4 = conn.prepareStatement(h1);
-                            pst4.setString(1,name1);
-                            pst4.setString(2,"Credit");
-                            pst4.setString(3,damount1);
-                            pst4.executeUpdate();
-                            
-                            
-                        }catch(Exception e2){
-                            JOptionPane.showMessageDialog(null,"Credit Updation Error in history");
+                        if(i>j){
+                            int k = i+j;
+                            tamount1 = String.valueOf(k);
+
+                            try{
+                                String u = "UPDATE `userinfo` SET `amount` = ? WHERE `userinfo`.`accno` = ?";
+                                PreparedStatement pst4 = conn.prepareStatement(u);
+                                pst4.setString(1,tamount1);
+                                pst4.setString(2,ano1);
+                                pst4.execute();
+                            }catch(Exception e1){
+                                JOptionPane.showMessageDialog(null,"Credit Updation Error in userinfo");
+                            }
+                            try{
+                                String h1 = "insert into history (username,method,amount) values(?,?,?)";
+                                PreparedStatement pst4 = conn.prepareStatement(h1);
+                                pst4.setString(1,name1);
+                                pst4.setString(2,"Credit");
+                                pst4.setString(3,damount1);
+                                pst4.executeUpdate();
+
+
+                            }catch(Exception e2){
+                                JOptionPane.showMessageDialog(null,"Credit Updation Error in history");
+                            }
                         }
                         
                     }
-                }catch (Exception e2){
-                        System.out.println(e2);
-                        JOptionPane.showMessageDialog(null, "Assignment Failed");
+                    else{
+                        JOptionPane.showMessageDialog(null,"Invalid Account Number");
                     }
+                }catch(Exception e9){
+                    JOptionPane.showMessageDialog(null,"Database Error");
                 }
+                
+                if(m ==1){
+                    try{
+
+                        //String ano = accInput.getText();
+                        String q = "Select * from userinfo where username = ?";
+
+
+                        PreparedStatement pst1 = conn.prepareStatement(q);
+
+                        pst1.setString(1,cu);
+
+
+                        ResultSet rSet = pst1.executeQuery();
+                        if(rSet.next()){
+                            name = rSet.getString(1);
+                            uname = rSet.getString(4);
+                            topname.setText("Name: " +rSet.getString(1));
+                            topaccno.setText("Acc No: " +rSet.getString(2));
+                            String bamount = rSet.getString(3);
+                            String damount = amountInput.getText();
+                            int i=Integer.parseInt(bamount);
+                            int j=Integer.parseInt(damount);
+                            if(i>j){
+
+
+                                int k = i-j;
+                                tamount = String.valueOf(k);
+
+                                transfer = new JLabel("Transfered Amount : ");
+                                transfer.setBounds(400,500,500,40);
+                                transfer.setForeground(Color.BLACK);
+                                transfer.setFont(font3);
+                                bookFrame.add(transfer);
+
+                                available = new JLabel("Available Amount : ");
+                                available.setBounds(400,600,500,40);
+                                available.setForeground(Color.BLACK);
+                                available.setFont(font3);
+                                bookFrame.add(available);
+
+                                available.setText("Available Amount : "+tamount);
+                                transfer.setText("Transfered Amount : "+damount);
+                                try{
+                                    String u = "UPDATE `userinfo` SET `amount` = ? WHERE `userinfo`.`username` = ?";
+                                    PreparedStatement pst3 = conn.prepareStatement(u);
+                                    pst3.setString(1,tamount);
+                                    pst3.setString(2,cu);
+                                    pst3.execute();
+                                }catch(Exception e4){
+                                    JOptionPane.showMessageDialog(null,"Total Amount updation failed");
+                                }
+
+                                try{
+                                    String h = "insert into history (username,method,amount) values(?,?,?)";
+                                    PreparedStatement pst4 = conn.prepareStatement(h);
+                                    pst4.setString(1,uname);
+                                    pst4.setString(2,"Debit");
+                                    pst4.setString(3,damount);
+                                    pst4.executeUpdate();
+                                    JOptionPane.showMessageDialog(null,"Transfer Success Check your Account History");
+
+                                }catch(Exception e6){
+                                    JOptionPane.showMessageDialog(null,"Updation of History table error");
+                                }
+                            }
+                            else{
+                                JOptionPane.showMessageDialog(null,"Insufficient Balance");
+                            }
+
+                        }
+                        else{
+                            JOptionPane.showMessageDialog(null, "Account Number Does not exist");
+                            amountInput.setText("");
+                            amountInput.requestFocus();
+                            //firstNameInput.requestFocus();
+                        }
+
+
+                    }catch (Exception e2){
+                            System.out.println(e2);
+                            JOptionPane.showMessageDialog(null, "Assignment Failed");
+                        }
+                }
+            }
             
         });
         

@@ -132,38 +132,47 @@ public class withdraw {
                         String damount = amountInput.getText().toString();
                         int i=Integer.parseInt(bamount);
                         int j=Integer.parseInt(damount);
-                        int k = i-j;
-                        tamount = String.valueOf(k);
-                        
-                        available = new JLabel("Available Amount : ");
-                        available.setBounds(400,500,500,40);
-                        available.setForeground(Color.BLACK);
-                        available.setFont(font3);
-                        bookFrame.add(available);
-                        
-                        available.setText("Available Amount : "+tamount);
-                        try{
-                            String u = "UPDATE `userinfo` SET `amount` = ? WHERE `userinfo`.`username` = ?";
-                            PreparedStatement pst3 = conn.prepareStatement(u);
-                            pst3.setString(1,tamount);
-                            pst3.setString(2,cu);
-                            pst3.execute();
-                        }catch(Exception e4){
-                            JOptionPane.showMessageDialog(null,"Total Amount updation failed");
-                        }
-                        
-                        try{
-                            String h = "insert into history (username,method,amount) values(?,?,?)";
-                            PreparedStatement pst4 = conn.prepareStatement(h);
-                            pst4.setString(1,cu);
-                            pst4.setString(2,"Withdraw");
-                            pst4.setString(3,damount);
-                            pst4.executeUpdate();
-                            JOptionPane.showMessageDialog(null,"Withdraw Success Check your Account Balance");
+                        if(i>=j){
+                            int k = i-j;
+                            tamount = String.valueOf(k);
                             
-                        }catch(Exception e6){
-                            JOptionPane.showMessageDialog(null,"Updation of History table error");
+                            available = new JLabel("Available Amount : ");
+                            available.setBounds(400,500,500,40);
+                            available.setForeground(Color.BLACK);
+                            available.setFont(font3);
+                            bookFrame.add(available);
+
+                            available.setText("Available Amount : "+tamount);
+                            try{
+                                String u = "UPDATE `userinfo` SET `amount` = ? WHERE `userinfo`.`username` = ?";
+                                PreparedStatement pst3 = conn.prepareStatement(u);
+                                pst3.setString(1,tamount);
+                                pst3.setString(2,cu);
+                                pst3.execute();
+                            }catch(Exception e4){
+                                JOptionPane.showMessageDialog(null,"Total Amount updation failed");
+                            }
+                            try{
+                                String h = "insert into history (username,method,amount) values(?,?,?)";
+                                PreparedStatement pst4 = conn.prepareStatement(h);
+                                pst4.setString(1,cu);
+                                pst4.setString(2,"Withdraw");
+                                pst4.setString(3,damount);
+                                pst4.executeUpdate();
+                                JOptionPane.showMessageDialog(null,"Withdraw Success Check your Account Balance");
+
+                            }catch(Exception e6){
+                                JOptionPane.showMessageDialog(null,"Updation of History table error");
+                            }
                         }
+                        else{
+                            JOptionPane.showMessageDialog(null,"Insufficient Balance");
+                        }
+                        
+                        
+                        
+                        
+                        
                         
                         /*try{
                             String u = "UPDATE `userinfo` SET `amount` = ? WHERE `userinfo`.`name` = ?";

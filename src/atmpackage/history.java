@@ -98,6 +98,8 @@ public class history extends javax.swing.JFrame  {
                     //String user = pnrInput.getText();
                     tableModel = new DefaultTableModel();
                     historyTable = new JTable(tableModel);
+                    historyTable.getTableHeader().setFont(new Font("Arial", Font.BOLD, 25));
+                    historyTable.setFont(new Font("Arial", Font.PLAIN, 20));
                     
                     String[] columnNames = {"username", "method", "amount"};
                     tableModel.setColumnIdentifiers(columnNames);
@@ -119,6 +121,8 @@ public class history extends javax.swing.JFrame  {
                 }
                 
                 scrollPane = new JScrollPane(historyTable);
+                JScrollBar bar = scrollPane.getVerticalScrollBar();
+                bar.setPreferredSize(new Dimension(40, 0));
                 add(scrollPane);
                 pack();
                 setVisible(true);

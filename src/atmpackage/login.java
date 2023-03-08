@@ -53,26 +53,28 @@ public class login {
         loginFrame.add(logintext);
         
         usernametext = new JLabel("Username");
-        usernametext.setBounds(400,300,100,40);
+        usernametext.setBounds(400,300,150,40);
         usernametext.setForeground(Color.BLACK);
-        Font font3 = new Font("Serif", Font.BOLD, 20);
+        Font font3 = new Font("Serif", Font.BOLD, 25);
         usernametext.setFont(font3);
         loginFrame.add(usernametext);
         
         passwordtext = new JLabel("Pin");
-        passwordtext.setBounds(400,350,100,40);
+        passwordtext.setBounds(400,400,100,40);
         passwordtext.setForeground(Color.BLACK);
-        Font font4 = new Font("Serif", Font.BOLD, 20);
+        Font font4 = new Font("Serif", Font.BOLD, 25);
         passwordtext.setFont(font4);
         loginFrame.add(passwordtext);
         
         usernameinput = new JTextField();
-        usernameinput.setBounds(550,300,300,40);
+        usernameinput.setBounds(600,300,300,40);
+        usernameinput.setFont(font4);
         usernameinput.requestFocus();
         loginFrame.add(usernameinput);
         
         passwordinput = new JPasswordField();
-        passwordinput.setBounds(550,350,300,40);
+        passwordinput.setBounds(600,400,300,40);
+        passwordinput.setFont(font4);
         passwordinput.requestFocus();
         loginFrame.add(passwordinput);
         
@@ -122,15 +124,13 @@ public class login {
             pst1.setString(2,pwd);
             ResultSet rSet = pst1.executeQuery();
             
-            String u = "insert into current (no,username,pin) values(?,?,?)";
-            PreparedStatement pst4 = conn.prepareStatement(u);
-            pst4.setString(1,"1");
-            pst4.setString(2,useri);
-            pst4.setString(3,pwd);
-            pst4.execute();
-            
-            
             if(rSet.next()){
+                String u = "insert into current (no,username,pin) values(?,?,?)";
+                PreparedStatement pst4 = conn.prepareStatement(u);
+                pst4.setString(1,"1");
+                pst4.setString(2,useri);
+                pst4.setString(3,pwd);
+                pst4.execute();
                 return true;
             }
             else{

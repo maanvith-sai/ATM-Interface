@@ -89,6 +89,7 @@ public class deposit {
         
         amountInput = new JTextField();
         amountInput.setBounds(650,400,300,40);
+        amountInput.setFont(font3);
         amountInput.requestFocus();
         bookFrame.add(amountInput);
         

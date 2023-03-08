@@ -76,13 +76,13 @@ public class balance {
         
 
         submitButton = new JButton("View Balance"); 
-        submitButton.setBounds (450, 450, 500, 60); 
+        submitButton.setBounds (450, 450, 500, 100); 
         Font font4 = new Font("Sierf", Font.PLAIN,35);
         submitButton.setFont(font4);
         bookFrame.add(submitButton);
 
         backButton = new JButton("Back"); 
-        backButton.setBounds (450, 650, 500, 60); 
+        backButton.setBounds (450, 650, 500, 100); 
         backButton.setFont(font4);
         bookFrame.add(backButton);
         
